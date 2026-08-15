@@ -1,0 +1,24 @@
+ref: netbox.resource_upsert
+label: "Upsert Curated NetBox Resource"
+description: "Create or patch only when explicit NetBox filters select zero or exactly one object"
+enabled: true
+runner_type: python
+runtime_version: ">=3.10"
+entry_point: netbox_action.py
+parameter_delivery: stdin
+parameter_format: json
+output_format: json
+default_execution_permission_set_refs: [standard]
+parameters:
+  credential_key: {type: string, default: netbox.credentials, required: true, description: "Pack-owned encrypted netbox.* credential Key ref"}
+  resource: {type: string, required: true, enum: [regions, sites, tenants, racks, manufacturers, device_types, platforms, device_roles, devices, device_interfaces, cables, prefixes, ip_addresses, vlans, vrfs, providers, circuits, circuit_terminations, clusters, virtual_machines, vm_interfaces, tags, custom_fields, journal_entries]}
+  selector: {type: object, required: true, description: "One or more explicit NetBox filters; ambiguous matches fail"}
+  create_body: {type: object, required: true, description: "Body used only when selector matches zero objects"}
+  update_body: {type: object, required: true, description: "Partial PATCH body used only when selector matches one object"}
+  timeout_seconds: {type: integer, minimum: 1, maximum: 120, default: 30}
+output:
+  operation: {type: string}
+  resource: {type: any}
+  data: {type: any}
+  meta: {type: object}
+tags: [netbox, resource, upsert, write, etag]

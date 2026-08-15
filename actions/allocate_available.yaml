@@ -1,0 +1,23 @@
+ref: netbox.allocate_available
+label: "Allocate Available IP or Prefix"
+description: "Atomically allocate one available IP address or child prefix under a parent prefix ID"
+enabled: true
+runner_type: python
+runtime_version: ">=3.10"
+entry_point: netbox_action.py
+parameter_delivery: stdin
+parameter_format: json
+output_format: json
+default_execution_permission_set_refs: [standard]
+parameters:
+  credential_key: {type: string, default: netbox.credentials, required: true, description: "Pack-owned encrypted netbox.* credential Key ref"}
+  kind: {type: string, required: true, enum: [ip, prefix]}
+  parent_prefix_id: {type: integer, minimum: 1, required: true, description: "Numeric ID of the parent prefix"}
+  allocation: {type: object, required: true, description: "IP fields, or prefix fields including required prefix_length; address/prefix is assigned atomically by NetBox"}
+  timeout_seconds: {type: integer, minimum: 1, maximum: 120, default: 30}
+output:
+  operation: {type: string}
+  resource: {type: any}
+  data: {type: any}
+  meta: {type: object}
+tags: [netbox, ipam, allocation, write, atomic]

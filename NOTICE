@@ -1,0 +1,18 @@
+This product includes a substantially modified adaptation of the StackStorm
+Exchange NetBox pack, version 3.4.4, originally attributed to John Anderson and
+Jefferson White, with contributions from StackStorm Exchange contributors.
+
+Source: https://github.com/StackStorm-Exchange/stackstorm-netbox
+Revision: 69cb91a8b55c791ebec189cd976170ce44206358
+Revision date: 2025-06-23
+Tag: v3.4.4
+License: MIT
+
+The implementation was rebuilt for Attune and NetBox 4.6.8. The shared direct
+REST client, curated resource map, action contracts, pagination, Attune Key
+credential handling, TLS controls, ETag concurrency, allocation behavior,
+confirmations, and tests are new. The approximately 632 generated upstream
+action definitions and the Flask webhook sensor were not retained.
+
+NetBox is a trademark of NetBox Labs Inc. This pack is not endorsed by NetBox
+Labs or the upstream StackStorm Exchange project.

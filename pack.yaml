@@ -1,0 +1,40 @@
+ref: netbox
+label: "NetBox REST"
+description: "Curated NetBox 4.x REST actions with Attune Key-backed token credentials"
+version: "0.1.0"
+author: "Attune; adapted from work by John Anderson, Jefferson White, and StackStorm Exchange contributors"
+email: "support@attune.systems"
+system: false
+enabled: true
+
+conf_schema: {}
+config: {}
+
+meta:
+  category: integration
+  documentation_url: "https://netboxlabs.com/docs/netbox/en/stable/integrations/rest-api/"
+  repository_url: "https://github.com/attune-packs/netbox"
+  source_repository: "https://github.com/StackStorm-Exchange/stackstorm-netbox"
+  source_revision: "69cb91a8b55c791ebec189cd976170ce44206358"
+  source_version: "3.4.4"
+  api_baseline: "NetBox 4.6.8"
+  api_revision: "3db98de783c02038775b78f9804a95681f78eb7b"
+  license: "MIT"
+
+tags: [netbox, dcim, ipam, circuits, virtualization, integration]
+runtime_deps: [python]
+dependencies: []
+
+testing:
+  enabled: true
+  discovery:
+    method: directory
+    path: tests
+  runners:
+    python:
+      type: unittest
+      entry_point: tests/test_pack.py
+      timeout: 120
+      result_format: simple
+  min_pass_rate: 1.0
+  on_failure: block

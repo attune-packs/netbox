@@ -1,0 +1,26 @@
+ref: netbox.resource_list
+label: "List Curated NetBox Resources"
+description: "List one allowlisted resource with encoded filters and bounded offset pagination"
+enabled: true
+runner_type: python
+runtime_version: ">=3.10"
+entry_point: netbox_action.py
+parameter_delivery: stdin
+parameter_format: json
+output_format: json
+default_execution_permission_set_refs: [standard]
+parameters:
+  credential_key: {type: string, default: netbox.credentials, required: true, description: "Pack-owned encrypted netbox.* credential Key ref"}
+  resource: {type: string, required: true, enum: [regions, sites, tenants, racks, manufacturers, device_types, platforms, device_roles, devices, device_interfaces, cables, prefixes, ip_addresses, vlans, vrfs, providers, circuits, circuit_terminations, clusters, virtual_machines, vm_interfaces, tags, custom_fields, journal_entries]}
+  filters: {type: object, default: {}, description: "NetBox filter query object; names and scalar values are URL encoded"}
+  limit: {type: integer, minimum: 1, maximum: 1000, default: 100, description: "Page size"}
+  offset: {type: integer, minimum: 0, default: 0}
+  all_pages: {type: boolean, default: false}
+  max_total: {type: integer, minimum: 1, maximum: 10000, default: 1000, description: "Hard result cap when following pages"}
+  timeout_seconds: {type: integer, minimum: 1, maximum: 120, default: 30}
+output:
+  operation: {type: string}
+  resource: {type: any}
+  data: {type: any}
+  meta: {type: object}
+tags: [netbox, resource, list, read]
