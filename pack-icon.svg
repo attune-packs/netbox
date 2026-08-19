@@ -1,0 +1,8 @@
+<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <title>Pack icon</title>
+  <g transform="translate(-1.200 -1.200) scale(1.1000)">
+
+  <path d="M12 3 L19.8 7.6 V16.4 L12 21 L4.2 16.4 V7.6 Z" fill="none" stroke="#1B6CA8" stroke-width="1.9" stroke-linejoin="round"/>
+  <path d="M8.6 15.6 V8.4 L15.4 15.6 V8.4" fill="none" stroke="#1B6CA8" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>
