@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 import sys
+import types
 import unittest
 from unittest import mock
 from urllib.error import HTTPError
@@ -80,7 +81,7 @@ class MetadataTests(unittest.TestCase):
                 }.items():
                     self.assertRegex(text, rf"(?m)^{field}: {value}$")
                 self.assertIn("default_execution_permission_set_refs: [standard]", text)
-                self.assertRegex(text, r"credential_key: \{[^\n]*default: netbox\.credentials")
+                self.assertRegex(text, r"credential_key: \{[^\n]*default: pack\.netbox\.credentials")
                 for field in ("operation", "resource", "data", "meta"):
                     self.assertRegex(text, rf"(?m)^  {field}: \{{type:")
                 self.assertNotRegex(text, r"(?m)^  (?:token|api_token|url|endpoint|method):")
@@ -135,6 +136,30 @@ class MetadataTests(unittest.TestCase):
 
 
 class ValidationTests(unittest.TestCase):
+    def test_fetch_key_uses_canonical_ref_as_positional_argument(self):
+        parsed = types.SimpleNamespace(data=types.SimpleNamespace(value={"token": "secret"}))
+        sdk_client = object()
+        fake_attune = types.ModuleType("attune")
+        fake_attune.context = types.SimpleNamespace(client=sdk_client)
+        sync_detailed = mock.Mock(
+            return_value=types.SimpleNamespace(status_code=200, parsed=parsed)
+        )
+        fake_secrets = types.ModuleType("attune.api_client.api.secrets")
+        fake_secrets.get_key = types.SimpleNamespace(sync_detailed=sync_detailed)
+        modules = {
+            "attune": fake_attune,
+            "attune.api_client": types.ModuleType("attune.api_client"),
+            "attune.api_client.api": types.ModuleType("attune.api_client.api"),
+            "attune.api_client.api.secrets": fake_secrets,
+        }
+
+        with mock.patch.dict(sys.modules, modules):
+            client._fetch_key("pack.netbox.credentials")
+
+        sync_detailed.assert_called_once_with(
+            "pack.netbox.credentials", client=sdk_client
+        )
+
     def test_credentials_require_https_verification_and_safe_root(self):
         bad = [
             credential(base_url="http://netbox.invalid"),

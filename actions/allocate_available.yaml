@@ -10,7 +10,7 @@ parameter_format: json
 output_format: json
 default_execution_permission_set_refs: [standard]
 parameters:
-  credential_key: {type: string, default: netbox.credentials, required: true, description: "Pack-owned encrypted netbox.* credential Key ref"}
+  credential_key: {type: string, default: pack.netbox.credentials, required: true, description: "Pack-owned encrypted Key with canonical ref pack.netbox.*"}
   kind: {type: string, required: true, enum: [ip, prefix]}
   parent_prefix_id: {type: integer, minimum: 1, required: true, description: "Numeric ID of the parent prefix"}
   allocation: {type: object, required: true, description: "IP fields, or prefix fields including required prefix_length; address/prefix is assigned atomically by NetBox"}

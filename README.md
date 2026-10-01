@@ -12,11 +12,14 @@ REST, and OpenAPI verification.
 - HTTPS reachability from the worker to NetBox.
 - A least-privilege NetBox v2 API token. Legacy v1 tokens remain usable for
   NetBox versions that still accept them.
-- An encrypted pack-owned Attune Key, normally `netbox.credentials`.
+- An encrypted pack-owned Attune Key, normally `pack.netbox.credentials`.
 
 There are no third-party Python dependencies and tests make no live requests.
 
 ## Credential Key
+
+Create the Key with local ref `credentials`, owner type `pack`, and
+`owner_pack_ref` `netbox`. Its canonical ref is `pack.netbox.credentials`.
 
 ```json
 {

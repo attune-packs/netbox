@@ -10,7 +10,7 @@ parameter_format: json
 output_format: json
 default_execution_permission_set_refs: [standard]
 parameters:
-  credential_key: {type: string, default: netbox.credentials, required: true, description: "Pack-owned encrypted netbox.* credential Key ref"}
+  credential_key: {type: string, default: pack.netbox.credentials, required: true, description: "Pack-owned encrypted Key with canonical ref pack.netbox.*"}
   resource: {type: string, required: true, enum: [regions, sites, tenants, racks, manufacturers, device_types, platforms, device_roles, devices, device_interfaces, cables, prefixes, ip_addresses, vlans, vrfs, providers, circuits, circuit_terminations, clusters, virtual_machines, vm_interfaces, tags, custom_fields, journal_entries]}
   body: {type: object, required: true, description: "Single-object NetBox write representation; related objects should use numeric IDs"}
   timeout_seconds: {type: integer, minimum: 1, maximum: 120, default: 30}

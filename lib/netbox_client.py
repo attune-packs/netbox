@@ -11,7 +11,7 @@ from urllib.parse import quote, unquote, urlencode, urlsplit
 from urllib.request import HTTPRedirectHandler, HTTPSHandler, Request, build_opener
 
 
-DEFAULT_CREDENTIAL_KEY = "netbox.credentials"
+DEFAULT_CREDENTIAL_KEY = "pack.netbox.credentials"
 MAX_RESPONSE_BYTES = 32 * 1024 * 1024
 MAX_PAGE_SIZE = 1000
 MAX_TOTAL_RESULTS = 10000
@@ -58,13 +58,13 @@ class _NoRedirect(HTTPRedirectHandler):
 
 
 def _fetch_key(key_ref: str) -> Any:
-    if not isinstance(key_ref, str) or not key_ref.startswith("netbox.") or len(key_ref) > 255:
-        raise NetBoxPackError("credential_key must be a pack-owned netbox.* Attune Key ref")
+    if not isinstance(key_ref, str) or not key_ref.startswith("pack.netbox.") or len(key_ref) > 255:
+        raise NetBoxPackError("credential_key must be a pack-owned canonical pack.netbox.* Attune Key ref")
     try:
         import attune
         from attune.api_client.api.secrets import get_key
 
-        response = get_key.sync_detailed(client=attune.context.client, key_ref=key_ref)
+        response = get_key.sync_detailed(key_ref, client=attune.context.client)
     except Exception as exc:
         raise NetBoxPackError(f"could not read Attune Key ({type(exc).__name__})") from None
     if response.status_code != 200 or response.parsed is None:
